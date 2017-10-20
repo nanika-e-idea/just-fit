@@ -1,49 +1,52 @@
-# README #
+# JustFIT wp-theme
 
-This README would normally document whatever steps are necessary to get your application up and running.
+![Badge Status](https://ci-as-a-service)
 
-### What is this repository for? ###
+ is wordpress theme, that minimally-designed for less 10 pages corporate-site.
 
-* 'JustFIT wp-theme' is wordpress theme, that minimal-designed for client of 'JustFIT solution'.
-* This theme is used in case corporate-site
-* Version 1.0.0
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+## Description
 
-### How do I get set up? ###
+'Just FIT wp-theme' is a part of 'Just FIT' solution to finance & IT for start-ups and small-biz.
+Let's build minimally-designed corporate-site, with 'Just FIT wp-theme'.
 
-* Put it under your wordpress directory, sutch like '~/wp-content/theme/'.
-* Configuration
-    * JustFIT/
-        * css/
-            * customize.css
-            * font-awesome.min.css
-            * normalize.css
-        * fonts/
-            * FontAwesome.otf
-            * fontawesome-webfont.eot
-            * fontawesome-webfont.svg
-            * fontawesome-webfont.ttf
-            * fontawesome-webfont.woff
-            * fontawesome-webfont.woff2
-            * TanukiMagic.eot
-            * TanukiMagic.ttf
-            * TanukiMagic.woff
-            * TanukiMagic.woff2
-        * images/
-        * js/
-  
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+***DEMO:***
 
-### Contribution guidelines ###
+![Demo](https://image-url.gif)
 
-* Writing tests
-* Code review
-* Other guidelines
+## Features
 
-### Who do I talk to? ###
+- Awesome function
+- Awesome UI
+- ...
 
-* Repo owner or admin
-* Other community or team contact
+For more information, see `awesome-tool --help`.
+
+## Requirement
+
+- Requirement
+- Requirement
+- Requirement
+
+## Usage
+
+1. Usage
+2. Usage
+3. Usage
+
+## Installation
+
+Put this theme under your wordpress directory, sutch like '~/wp-content/theme/'.
+
+## Anything Else
+
+AnythingAnythingAnything
+AnythingAnythingAnything
+AnythingAnythingAnything
+
+## Author
+
+[@b4b4r07](https://twitter.com/b4b4r07)
+
+## License
+
+[MIT](http://b4b4r07.mit-license.org)
