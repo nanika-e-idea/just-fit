@@ -13,24 +13,24 @@ This README would normally document whatever steps are necessary to get your app
 
 * Put it under your wordpress directory, sutch like '~/wp-content/theme/'.
 * Configuration
-  * JustFIT/
-    * css/
-      * customize.css
-      * font-awesome.min.css
-      * normalize.css
-    * fonts/
-      * FontAwesome.otf
-      * fontawesome-webfont.eot
-      * fontawesome-webfont.svg
-      * fontawesome-webfont.ttf
-      * fontawesome-webfont.woff
-      * fontawesome-webfont.woff2
-      * TanukiMagic.eot
-      * TanukiMagic.ttf
-      * TanukiMagic.woff
-      * TanukiMagic.woff2
-    * images/
-    * js/
+    * JustFIT/
+        * css/
+            * customize.css
+            * font-awesome.min.css
+            * normalize.css
+        * fonts/
+            * FontAwesome.otf
+            * fontawesome-webfont.eot
+            * fontawesome-webfont.svg
+            * fontawesome-webfont.ttf
+            * fontawesome-webfont.woff
+            * fontawesome-webfont.woff2
+            * TanukiMagic.eot
+            * TanukiMagic.ttf
+            * TanukiMagic.woff
+            * TanukiMagic.woff2
+        * images/
+        * js/
   
 * Dependencies
 * Database configuration
