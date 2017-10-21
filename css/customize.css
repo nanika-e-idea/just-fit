@@ -1,0 +1,55 @@
+@charset "utf-8";
+
+
+h1{
+	font-size: 2.4rem;
+	line-height: 4rem;
+}
+h2{
+	font-size: 2rem;
+	line-height: 3rem;
+}
+h3{
+	font-size: 1.2rem;
+	line-height: 2rem;
+}
+h4{
+	font-size: 1rem;
+	line-height: 1.5rem;
+}
+a{
+	color: orange;
+}
+a:hover{
+	color: 3aaa;
+}
+a:visited{
+	color: currentColor;
+}
+.overlay_item h1,
+.overlay_item h2{
+	color: navy;
+	text-shadow: 0 0 5px white;
+}
+.article{
+	border-top: solid 5px orange;
+}
+.tile_label{
+	background-color: rgba(200,100,0,0.6);
+}
+.counter_num{
+	font-weight: 400;
+	color: orange;
+}
+@media screen and (min-width:640px){
+	.tile_view{
+		width: 99%;
+		margin-left: 1%;
+	}
+	.tile_item{
+		float: left;
+		width: 31%;
+		height: 260px;
+		margin: 20px 1%;
+	}
+}
