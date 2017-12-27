@@ -1,45 +1,46 @@
 <?php
- $obj = get_post_type_object( get_post_type() );
+/* Template Name: Blog */
+
+$obj = get_post_type_object('post');
+
+get_header();
+
+$postTitle = mb_substr($post->post_title, 0, 20, 'UTF-8');
+if(mb_strlen($post->post_title, 'UTF-8')>20){
+	$postTitle= $postTitle.'…';
+}
 ?>
-<?php get_header(); ?>
 <!-- template single -->
+<!-- headerNavエリア -->
 <div id="container">
-<p class="breadcrumb">
-	<a href="<?php echo $home ?>"><i class="fa fa-home"></i>トップ</a>
-	&nbsp;>&nbsp;<a href="<?php echo get_post_type_archive_link( get_post_type()); ?>"><i class="fa fa-folder-open"></i><?php echo $obj->labels->singular_name; ?></a>
-	&nbsp;>&nbsp;<i class="fa fa-file"></i><?php echo get_the_title(); ?>
-</p>
-
-<?php 
-	if (have_posts()) :
-	while (have_posts()) :
-	the_post(); ?>
 	
-	<div id="<?php echo get_post_meta($post->ID, 'element_ID', true) ?>" class="article section<?php echo $cnt_articles ?>">
+	<p class="breadcrumb">
+		<a href="<?php echo $home ?>"><i class="fa fa-home"></i>トップ</a>
+		&nbsp;>&nbsp;<a href="<?php echo get_post_type_archive_link( get_post_type()); ?>"><i class="fa fa-folder-open"></i><?php echo $obj->labels->singular_name; ?></a>
+		&nbsp;>
+	</p>
 
-<?php if(has_post_thumbnail()): ?>
-		<div class="sgl_eyecatch">
-			<img class="sgl_eyecatch_image" src="<?php echo wp_get_attachment_image_src( get_post_thumbnail_id() , 'full' )[0] ?>">
-<?php if(apply_filters('the_content', get_post_meta($post->ID, 'ex-eyecatch', true)) == true): ?>
-			<div class="overlay_item">
-<?php remove_filter('the_content', 'wpautop'); ?>
-			<?php echo apply_filters('the_content', get_post_meta($post->ID, 'ex-eyecatch', true)); ?>
-			</div>
-<?php endif; ?>
+	
+	<div id="main">
+		<h1><?php the_title(); ?></h1>
+		<?php if(has_post_thumbnail()): ?>
+		<div class="acl_eyecatch">
+					<img class="acl_eyecatch_image" src="<?php echo wp_get_attachment_image_src( get_post_thumbnail_id() , 'full' )[0] ?>">
 		</div>
-		<div class="overlay_item"><h1 class="acl_title"><?php the_title(); //記事タイトルを表示 ?></h1></div>
-<?php endif; ?>
 
-		
-<?php if( get_post()->post_content !== '' ): ?>
-		<div class="acl_container">
-			<span class="acl_text">
-<?php the_content(続きを読む); //記事本文を表示 ?>
-			</span>
-		</div>
-<?php endif; ?>
-<?php echo apply_filters('the_content', get_post_meta($post->ID, 'insert', true)); //ショートコードでサブループ呼び出し ?>
+	<?php endif; ?>
+		<?php the_content(); ?>
 	</div>
-<?php endwhile; endif; ?>
+	<div class="neighbors"></div>
+	<div class="recomends"></div>
+	<div id="sub">
+		<ul class="sub_blocks">
+			<li id="sblock_1" class="sblock"><?php dynamic_sidebar('sub_widget_1');?></li>
+			<li id="sblock_2" class="sblock"><?php dynamic_sidebar('sub_widget_2');?></li>
+			<li id="sblock_3" class="sblock"><?php dynamic_sidebar('sub_widget_3');?></li>
+			<li id="sblock_4" class="sblock"><?php dynamic_sidebar('sub_widget_4');?></li>
+		</ul>
+	</div>
+</div><!-- /container -->
 
 <?php get_footer(); ?>

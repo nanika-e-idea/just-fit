@@ -64,16 +64,16 @@ $page = get_the_permalink();
 <?php ins_crown_nav() ?>
 			<div id="pgs_header_namearea">
 				<div id="pgs_header_logo"><?php the_custom_logo(); ?></div>
-				<span id="pgs_header_sitename" class="font_cp">	
-					<?php bloginfo('description'); ?><br/>
-					<?php
-						global $page, $paged;
-						bloginfo('name');
-						if ($paged >= 2 || $page >= 2) : 
-						echo ' | ' . sprintf('%sページ', max($paged, $page));
-						endif;
-					?>
-				</span>
+				<div id="pgs_header_logoside">
+					<span id="pgs_header_sitename" class="font_cp">	
+						<?php bloginfo('description'); ?><br/>
+						<?php bloginfo('name');
+							//if ($paged >= 2 || $page >= 2) : 
+							//echo ' | ' . sprintf('%sページ', max($paged, $page));
+							//endif;
+						?>
+					</span>
+				</div>
 			</div>
 			<hr class="header_spacer"/>
 			<?php dynamic_sidebar('header_Nav'); ?>

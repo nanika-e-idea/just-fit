@@ -502,6 +502,7 @@ function ins_showcase( $atts, $content = null ) {
 //事例紹介
 add_shortcode( 'inspf', 'ins_portfolio' );
 function ins_portfolio( $atts, $content = null ) {
+	$txfilter = false;
 	if ( $content == null ){
 		$args = array(
 			'post_type' => 'portfolio',
@@ -519,15 +520,12 @@ function ins_portfolio( $atts, $content = null ) {
 			}
 			$j ++;
 		}
-		if($namearray[1] == null){
-			$args = array(
-			    'post_type' => $namearray[0],
-			);
-		}else if($termarray == null){
+		if($j < 3){
 			$args = array(
 			    'post_type' => $namearray[0],
 			);
 		}else{
+			$txfilter = true;
 		    $args = array(
 		    	'post_type' => $namearray[0],
 		    	'tax_query' => array(
@@ -564,7 +562,9 @@ function ins_portfolio( $atts, $content = null ) {
 	$slider .= "\t\t\t\t\t\t\t".'<div class="pfImage"><img src="'.wp_get_attachment_image_src( get_post_thumbnail_id() , 'large' )[0].'"></div>'.PHP_EOL;
 	$slider .= "\t\t\t\t\t\t\t".'<div class="pfArticle"><h3>'.get_the_title().'</h3><hr>'.PHP_EOL;
 	$slider .= "\t\t\t\t\t\t\t".get_the_content().'<hr>'.PHP_EOL;
-	$slider .= "\t\t\t\t\t\t\t".'<span>'.get_taxonomy_labels(get_taxonomy($tmparray[1]))->name.': ';
+	if($txfilter == true){
+		$slider .= "\t\t\t\t\t\t\t".'<span>'.get_taxonomy_labels(get_taxonomy($tmparray[1]))->name.': ';
+	}
 	if ($terms = get_the_terms($post->ID, $tmparray[1])) {
     	foreach ( $terms as $term ) {
         	$slider .= '<span class="iblock">'.esc_html($term->name) . ',</span>';
@@ -1317,5 +1317,19 @@ function callimageloaded(){
 add_action( 'wp_enqueue_scripts', 'callexactions');
 function callexactions(){
 	wp_enqueue_script( 'extra-action', get_template_directory_uri() . '/js/extractions.js', array( 'imageloaded' ), '20170830', true );
+}
+//現在のページ数の取得
+function crt_show_page_num() {
+    global $wp_query;
+
+    $crt_page = (get_query_var('paged')) ? get_query_var('paged') : 1;
+    return $crt_page;  
+}
+//総ページ数の取得
+function all_show_page_num() {
+    global $wp_query;
+
+    $max_page = $wp_query->max_num_pages;
+    return $max_page; 
 }
 ?>

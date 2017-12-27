@@ -3,7 +3,7 @@
 Template Name: フロントページ
 */
 ?>
-<?php if(get_post_meta($post->ID, 'frp_header_off', true) == true): ?>
+<?php if(get_post_meta($post->ID, 'frp_header_off', true) == 'true'): ?>
 <?php get_header(); ?>
 <?php PHP_EOL; ?>
 <?php else: ?>
@@ -49,25 +49,30 @@ $home = get_bloginfo('url');
 		<a name="page_top"></a>
 		
 		<div id="frp_header">
+<?php if(get_post_meta($post->ID, 'eyecatchoff', true) <> 'true'): ?>	
+<?php if(has_post_thumbnail()) : ?>
+			<div class="ftp_eyecatch">
+				<div class="bg">
+					<img class="pgs_eyecatch_image" src="<?php echo wp_get_attachment_image_src( get_post_thumbnail_id() , 'large' )[0]; ?>">
+				</div>
+<?php if(get_post_meta($post->ID, 'ex-eyecatch', true)): ?>
+				<div class="overlay">
+<?php echo get_post_meta($post->ID, 'ex-eyecatch', true).PHP_EOL; ?>
+				</div>
+<?php endif;//!empty($exeycatch) ?>
+			</div>
+<?php endif;//has_post_thumbnail ?>
+
+<?php endif;//eyecatchoff <> 'true' ?>
+
+
 		</div>
 		<!-- header -->
 
 
-<?php endif; ?>
+<?php endif;//'frp_header_off == 'true' ?>
 		<div id="container">
-			<?php $exeycatch = get_post_meta($post->ID, 'ex_eyecatch', true); ?>
-<?php if(empty($exeycatch)): ?>
-<?php if(apply_filters('the_content', get_post_meta($post->ID, 'eyecatchoff', true)) == false): ?>
-<?php if(has_post_thumbnail()) : ?>
-	<div class="ftp_eyecatch">
-		<img class="pgs_eyecatch_image" src="<?php echo wp_get_attachment_image_src( get_post_thumbnail_id() , 'large' )[0]; ?>">
-	</div>
-<?php endif;//has_post_thumbnail ?>
-<?php endif;//eyecatchoff == false ?>
-<?php else: ?>
-	<?php echo apply_filters('the_content', $exeycatch); ?>
-<?php endif;//empty($exeycatch) ?>
-				<!-- /ex-eyecatch -->
+
 			<div id="headline">
 				<!-- subLoop -->
 <?php $args = array( 'post_type' => 'headline', 'posts_per_page' => 1 ); ?>
@@ -122,8 +127,8 @@ $home = get_bloginfo('url');
 
 			
 				
-			</div>
+
 		</div>
-		<!-- body -->
+		<!-- container -->
 		<?php get_footer(); ?>
 		

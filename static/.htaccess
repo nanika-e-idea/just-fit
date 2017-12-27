@@ -1,0 +1,29 @@
+AddHandler php7.0-script .php
+
+Redirect permanent /pasticceria\.html /pasticceria/
+Redirect permanent /bar\.html /bar/
+Redirect permanent /osteria\.html /osteria/
+Redirect permanent /home\.html /
+RedirectMatch permanent /pasticceria/.*html$ /pasticceria/
+RedirectMatch permanent /bar/.*html$ /bar/
+RedirectMatch permanent /osteria/.*html$ /osteria/
+
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^(amarena\.jp)(:80)? [NC]
+RewriteRule ^(.*) http://www.amarena.jp/$1 [R=301,L]
+RewriteCond %{THE_REQUEST} ^.*/index.php
+RewriteRule ^(.*)index.php$ http://www.amarena.jp/$1 [R=301,L]
+
+# BEGIN WordPress
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ ./index.php [L]
+Options +FollowSymLinks
+</IfModule>
+
+# END WordPress
