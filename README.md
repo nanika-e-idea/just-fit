@@ -1,21 +1,17 @@
 # Just FIT - WordPress Theme #
 
-スタートアップ、スモールビジネスにちょうどいい、コーポレートサイト、オウンドメディアをもっと身近に。
+スタートアップ、スモールビジネスにちょうどいい、
+自分でつくるコーポレートサイト＆オウンドメディア。
 
 ### これは何? ###
 
 オープンソースCMS「WordPress」を利用したコーポレートサイトやオウンドメディアを構築するためのテーマです。
-シンプル、モバイルフレンドリー、メンテナンス性を重視したWordPressサイトを実現します。
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+シンプル、モバイルフレンドリー、メンテナンス性を重視したWordPressサイトの作成を実現します。
 
 ### 使い方 ###
 
-*WordPressの導入については割愛
-
-* Summary of set up
+* WordPressを導入
+* wp_content/theme フォルダに justfit を配置
 * Configuration
 * Dependencies
 * Database configuration
