@@ -16,6 +16,9 @@
 - シングルページサイトの作成に特化した先行リリース版。
 - [theam ナニカ](http://www.nanika-e-idea.com)のサイトは このバージョンで制作。
 
+#### 現在実装中 ####
+- BLOG用レイアウト作成中
+
 ### これは何? ###
 
  Just FIT - WordPress ThemeはオープンソースCMS「WordPress」向けのテーマファイルです。 
