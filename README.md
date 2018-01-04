@@ -20,20 +20,9 @@
 主にコーポレートサイトやブランドサイト、オウンドメディアを構築するために必要な最小構成のテンプレートで、
 シンプル、モバイルフレンドリー、メンテナンス性を重視したWordPressサイト作りを実現します。
 
-### Get Starting ###
+### どうやって使う？ ###
 
 * WordPressを導入
-* wp_content/theme フォルダに justfit を配置
+* ~/wp_content/theme フォルダに justfit を配置
 * WordPress管理画面から　テーマを有効化
 * サイト制作について詳しくはWikiを参照
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
