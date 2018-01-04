@@ -48,7 +48,7 @@ get_header();
 					
 					
 				</a>
-				<div class="itemTitle_block">
+				<a class="itemTitle_block" href="<?php echo get_post_permalink(); ?>">
 						<?php
 						$postTitle = mb_substr($post->post_title, 0, 24, 'UTF-8');
 						if(mb_strlen($post->post_title, 'UTF-8')>24){
@@ -57,7 +57,7 @@ get_header();
 						?>
 						<h3 class="itemTitle"><?php echo $postTitle; ?></h3>
 						<span class="itemDate"><?php the_date(); ?></span>
-					</div>
+					</a>
 				<div class="itemCat"><?php the_category(); ?></div>
 			</li>
 <?php endwhile; endif; wp_reset_query(); ?>

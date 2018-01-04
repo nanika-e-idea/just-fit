@@ -30,9 +30,43 @@ if(mb_strlen($post->post_title, 'UTF-8')>20){
 
 	<?php endif; ?>
 		<?php the_content(); ?>
+		<!-- end of the_content() -->
+		<ul class="neighbors">
+			<li class="neighbor_next">
+				<?php if (get_next_post()):?>
+				<a href="<?php echo get_permalink(get_next_post()); ?>">
+					<div class="neibor">
+					<div class="neighbor-sign">
+						<i class="fa fa-angle-left"></i>
+					</div>
+					<div class="neighbor-label">
+						<span>next</span>
+						<h4><?php echo get_the_title(get_next_post()); ?></h4>
+					</div>
+					</div>
+				</a>
+				<?php endif; ?>
+			</li>
+			<li class="neighbor_prev">
+				<?php if (get_previous_post()):?>
+				<a href="<?php echo get_permalink( get_previous_post()); ?>">
+					<div class="neibor">
+					<div class="neighbor-sign">
+						<i class="fa fa-angle-right"></i>
+					</div>
+					<div class="neighbor-label">
+						<span>prev</span>
+						<h4><?php echo get_the_title(get_previous_post()); ?></h4>
+					</div>
+					</div>
+				</a>
+				<?php endif; ?>
+			</li>
+		</ul>
+		<div class="recomends">
+			<?php wp_related_posts(); ?>
+		</div>
 	</div>
-	<div class="neighbors"></div>
-	<div class="recomends"></div>
 	<div id="sub">
 		<ul class="sub_blocks">
 			<li id="sblock_1" class="sblock"><?php dynamic_sidebar('sub_widget_1');?></li>
