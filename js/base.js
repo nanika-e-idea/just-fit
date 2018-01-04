@@ -186,7 +186,8 @@ jQuery(document).ready(function ($) {
 	}, 2700);
 
 	/** Scroll to PageTop **/
-	$(window).on('scroll', function () {
+	//ボタン表示制御
+	$(document).on('scroll', function () {
 		var scrlPosition = $(window).scrollTop();
 		if (scrlPosition > 500) {
 			$('#scroll_page_top').removeClass('hidden');
@@ -194,7 +195,8 @@ jQuery(document).ready(function ($) {
 			$('#scroll_page_top').addClass('hidden');
 		}
 	});
-	$('#scroll_page_top').on('click', function () {
+	//ボタンClick処理
+	$(document).on('click', '#scroll_page_top', function (){
 		$('html,body').stop().animate({
 			scrollTop: 0
 		}, 300, 'swing');

@@ -198,8 +198,8 @@ span.lined{
 	background-color: rgba( 0, 0, 0, 0.5);
 	color: white;
 	text-align: center;
-	font-size: 40px;e
-	z-index: 10;
+	font-size: 40px;
+	z-index: 20;
 	cursor: pointer;
 	transition-duration: 800;
 }
@@ -616,6 +616,10 @@ hr.acl_spacer{
 	padding: 0 0 50px 0;
 	overflow: hidden;
 	line-height: 2rem;
+}
+.article img{
+	max-width: 100%;
+	height: auto;
 }
 
 .section0 {
@@ -1729,18 +1733,27 @@ li.neighbor_next,
 li.neighbor_prev{
 	position: relative;
 	box-sizing: border-box;
-	width: 48%;
-	max-width: 300px;
+	width: 50%;
 	height: 100px;
 	background-color: #eee;
-	border: solid 1px #222;
-	//overflow: hidden;
+	overflow: hidden;
 }
-div.neighbor{
+li.neighbor_next{
+	border-right: solid 1px #222;
+}
+.neighbors a{
 	position: relative;
+	display: block;
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
+}
+.neighbor{
+	display: block;
+}
+.neighbors a:hover{
+	background-color: #ccc;
+	color: white;
 }
 .neighbor_next .neighbor{
 }
@@ -1750,34 +1763,30 @@ div.neighbor{
 	position: relative;
 }
 .neighbor-sign{
-	width: 30px;
+	width: 40px;
 	height: 100px;
 	line-height: 100px;
 	margin: 0;
-	font-size: 30px;
+	font-size: 40px;
 	overflow: hidden;
 }
-.neighbor_next .neighbor-sign{
-	float: left;
-}
-.neighbor_prev .neighbor-sign{
-	float: right;
-}
-.neighbor-label{
-	display: block;
-	width: calc(100%-35px);
-	width: 200px;
-	height: 100px;
-	margin: 0;
-	overflow: hidden;
-}
+.neighbor_next .neighbor-sign,
 .neighbor_next .neighbor-label{
 	float: left;
 	text-align: left;
 }
+.neighbor_prev .neighbor-sign,
 .neighbor_prev .neighbor-label{
 	float: right;
 	text-align: right;
+}
+.neighbor-label{
+	display: block;
+	//width: calc(100%-40px);
+	width: 200px;
+	height: 100px;
+	margin: 0;
+	overflow: hidden;
 }
 /* /single items */
 

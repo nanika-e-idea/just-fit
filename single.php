@@ -22,6 +22,7 @@ if(mb_strlen($post->post_title, 'UTF-8')>20){
 
 	
 	<div id="main">
+		<div id="<?php echo get_post_meta($post->ID, 'element_ID', true) ?>" class="article section<?php echo $cnt_articles ?>">
 		<h1><?php the_title(); ?></h1>
 		<?php if(has_post_thumbnail()): ?>
 		<div class="acl_eyecatch">
@@ -29,7 +30,9 @@ if(mb_strlen($post->post_title, 'UTF-8')>20){
 		</div>
 
 	<?php endif; ?>
+		
 		<?php the_content(); ?>
+		</div>
 		<!-- end of the_content() -->
 		<ul class="neighbors">
 			<li class="neighbor_next">
