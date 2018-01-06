@@ -28,9 +28,9 @@ get_header();
 <?php
 	$sticky = get_option( 'sticky_posts' );
 	$args = array(
-		'post_per_page' => 2,
-		'post__in' => $sticky,
 		'post_type' => 'post',
+		'post__in' => $sticky,
+		'posts_per_page' => 2,
 	);
 	$query = new WP_Query($args);
 	if ($query->have_posts()) :
@@ -60,7 +60,7 @@ get_header();
 					</a>
 				<div class="itemCat"><?php the_category(); ?></div>
 			</li>
-<?php endwhile; endif; wp_reset_query(); ?>
+<?php endwhile; endif; wp_reset_postdata(); ?>
 		</ul>
 		
 		<?php endif; ?>
@@ -69,18 +69,22 @@ get_header();
 
 <?php
 	$count = 1;
-	
+	$sticky = get_option( 'sticky_posts' );
+	$paged =(int) get_query_var('paged');
 	$args = array(
-		'paged'     => get_query_var('paged') ?intval(get_query_var('paged')) : 1,
+		'post_type' => 'post',
+		'post_status' => 'publish',
 		'post__not_in' => $sticky,
-		'post_type' => 'post'
+		'posts_per_page' => 10,
+		'paged' => $paged,
 	);
+	
 	$query = new WP_Query($args);
 	$current_page = get_query_var('page', 1);
 	$count_page = $query->max_num_pages;
+	$val_feature = 2;	
 	if ($query->have_posts()) :
-	while ($query->have_posts()) : $query->the_post();
-	$val_feature = 2;
+	while ($query->have_posts()) : $query->the_post();	
 ?>
 			<?php if($count < $val_feature + 1): ?>
 			<li class="itemBlock block_L">
@@ -98,20 +102,22 @@ get_header();
 					
 					
 				</a>
-				<div class="itemTitle_block">
+				<a href="<?php echo get_post_permalink(); ?>">
+					<div class="itemTitle_block">
 						<?php
-						$postTitle = mb_substr($post->post_title, 0, 24, 'UTF-8');
-						if(mb_strlen($post->post_title, 'UTF-8')>24){
+						$postTitle = mb_substr($post->post_title, 0, 29, 'UTF-8');
+						if(mb_strlen($post->post_title, 'UTF-8')>29){
 							$postTitle= $postTitle.'…';
 						}
 						?>
 						<h3 class="itemTitle"><?php echo $postTitle; ?></h3>
 						<span class="itemDate"><?php the_date(); ?></span>
 					</div>
+				</a>
 				<div class="itemCat"><?php the_category(); ?></div>
 			</li>
 <?php $count += 1;?>
-<?php endwhile; endif; wp_reset_query();?>
+<?php endwhile; endif; wp_reset_postdata(); ?>
 <?php $page = get_the_permalink();?>
 		</ul>
 		<div class=pagination-container>
@@ -123,7 +129,7 @@ get_header();
 				<?php endif; ?>
 				
 				<?php for($i=1; $i<$count_page+1; $i++):
-				if(($current_page <= 4 and $i <= 7) or ($count_page > 7 and $current_page > 4 and $current_page <= $count_page - 4 and $i > $current_page - 4 and $i < $current_page + 4) or ($current_page > $count_page - 4 and $i >= $count_page - 7)):
+				if(($current_page <= 3 and $i <= 5) or ($count_page > 5 and $current_page > 3 and $current_page <= $count_page - 3 and $i > $current_page - 3 and $i < $current_page + 3) or ($current_page > $count_page - 3 and $i >= $count_page - 5)):
 				?>
 				<li><a href="<?php echo $page; ?>page/<?php echo $i; ?>/" class="<?php if($i == $current_page){echo 'active';}else{echo 'standby';} ?>"><?php echo $i; ?></a></li>
 				<?php endif; ?>

@@ -1502,6 +1502,7 @@ ul.acl_list {
 	top: calc(50% - 1rem);
 	transform: translateY(-50%);
 	border: none;
+	font-size: 2rem;
 }
 .itemTitle_block span.itemDate{
 	position: absolute;
@@ -1517,8 +1518,11 @@ ul.acl_list {
 	min-height: 33%;
 	max-height: 90%;
 	width: 300px;
+	padding: 0;
 	color: white;
-	border: solid 3px white;
+	border: solid 10px white;
+	border-top-width: 3px;
+	border-bottom-width: 3px;
 	box-shadow: 1px 1px 1px #222;
 	background-color: rgba(0,0,0,0.4);
 }
@@ -1547,18 +1551,29 @@ ul.acl_list {
 }
 .slides li  h3.itemTitle, 
 .block_L h3.itemTitle{
-	top: 50%;
+	top: -1.2rem;
+	left: -1.2rem;
+	transform: none;
 	padding: 1rem 1rem 1.5rem 1rem;
 	font-weight: 600;
 	text-align: left;
+	letter-spacing: -0.2rem;
+	font-size: 2.5rem;
+	line-height: 2.3rem;
+}
+.block_L .itemDate{
+	text-shadow: 0px 0px 1px black, 0px 0px 1px black;
 }
 .block_S h3.itemTitle{
 	top: 50%;
-	padding: 1rem 2rem;
+	max-height: 80px;
+	padding: 0;
+	margin: 0 10px 10px 10px;
 	font-size: 1rem;
 	font-weight: 400;
 	line-height: 1rem;
 	text-align: left;
+	overflow: hidden;
 }
 .blg_eyecatch img.itemImage{
 	display: block;
@@ -1686,13 +1701,13 @@ ul.acl_list {
 	width: 100%;
 }
 .pagination li{
-	margin: auto 0.2rem;
+	margin: auto 0.3rem;
 }
 .pagination a{
-	width: 2rem;
-	line-height: 2rem;
-	padding: 0.5rem 1rem;
-	//border: solid 1px #aaa;
+	//width: 5rem;
+	//line-height: 5rem;
+	box-sizing: border-box;
+	padding: 1rem 1.5rem;
 }
 .pagination a,
 .pagination a:visited{
@@ -1710,6 +1725,10 @@ ul.acl_list {
 .pagination a.standby{
 	background-color: #ddd;
 	color: #aaa;
+}
+.pagination a.standby:hover{
+	border: solid 0.2rem #aaa;
+	padding: 0.8rem 1.3rem;
 }
 /* /blog items */
 
@@ -2497,7 +2516,7 @@ div.block-emb{
 		width: 800px;
 	}
 }
-/* metaslider */
+/* for Metaslider */
 .hide-caption-wrap{
 	height: 400px;
 }
@@ -2523,6 +2542,8 @@ div.block-emb{
 .hide-caption-wrap .flex-control-paging li a.flex-active{
 	background: rgba(255,255,255,0.5);
 }
+/* /for Metaslider */
+/* popular Posts */
 .wpp-list{
 	width: 100%;
 }
@@ -2579,6 +2600,27 @@ div.block-emb{
 	text-align: right;
 	font-weight: 200;
 }
+/* /for Popular Posts */
+/* for Related Posts */
+.related_post_title {
+}
+ul.related_post {
+	box-sizing: border-box;
+	width: 100%;
+}
+ul.related_post li {
+	box-sizing: border-box;
+	width: 100%;
+	height: 150px;
+	background-color: rgba(255,255,255,0.7);
+	box-shadow: 1px 1px 7px #bbb;
+	
+	
+}
+ul.related_post li a {
+}
+ul.related_post li img {
+}
 .wp_rp_content{
 	width: 100%;
 	text-align: center;
@@ -2593,3 +2635,4 @@ div.block-emb{
 .wp_rp_footer{
 	width: 100%;
 }
+/* /for Related Posts */
