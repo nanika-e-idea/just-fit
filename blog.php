@@ -70,7 +70,13 @@ get_header();
 <?php
 	$count = 1;
 	$sticky = get_option( 'sticky_posts' );
-	$paged =(int) get_query_var('paged');
+	if ( get_query_var('paged') ) {
+		$paged = get_query_var('paged');
+	} elseif ( get_query_var('page') ) {
+		$paged = get_query_var('page');
+	} else {
+		$paged = 1;
+	};
 	$args = array(
 		'post_type' => 'post',
 		'post_status' => 'publish',
