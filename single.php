@@ -13,13 +13,7 @@ if(mb_strlen($post->post_title, 'UTF-8')>20){
 <!-- template single -->
 <!-- headerNavエリア -->
 <div id="container">
-	
-	<p class="breadcrumb">
-		<a href="<?php echo $home ?>"><i class="fa fa-home"></i>トップ</a>
-		&nbsp;>&nbsp;<a href="<?php echo get_post_type_archive_link( get_post_type()); ?>"><i class="fa fa-folder-open"></i><?php echo $obj->labels->singular_name; ?></a>
-		&nbsp;>
-	</p>
-
+	<?php breadcrumb(); ?>
 	
 	<div id="main">
 		<div id="<?php echo get_post_meta($post->ID, 'element_ID', true) ?>" class="article section<?php echo $cnt_articles ?>">

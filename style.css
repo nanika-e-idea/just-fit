@@ -1455,7 +1455,7 @@ ul.acl_list {
 	margin-bottom: 10px;
 	padding: 10px;
 	border: none;
-	//background-color: #e0e0e0;
+	background-color: rgba(255,255,255,0.4);
 	//border: solid 1px #fafafa;
 	box-shadow: 1px 1px 7px #bbb;
 	overflow: hidden;
@@ -1540,7 +1540,6 @@ ul.acl_list {
 	left: 135px;
 	height: calc(100% - 20px);
 	width: calc(100% - 145px);
-	background-color: rgba(255,255,255,0.4);
 	color: #222;
 	//border: solid 2px #222;
 	//box-shadow: 1px 1px #fff;
@@ -1552,7 +1551,7 @@ ul.acl_list {
 }
 .slides li  h3.itemTitle, 
 .block_L h3.itemTitle{
-	top: -1.2rem;
+	top: -1rem;
 	left: -1.2rem;
 	transform: none;
 	padding: 1rem 1rem 1.5rem 1rem;
