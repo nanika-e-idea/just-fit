@@ -1,5 +1,5 @@
 /*
-Theme Name: Just Fit Your Business
+Theme Name: Just Fit Wordpress Theme
 Author: Team Nanika
 Author URI: http://nanika-e-idea.com/just-fit/
 Version: 1.0.0
@@ -274,7 +274,7 @@ span.lined{
 	border: none;
 	border-radius: 30px;
 }
-
+/** overlay item on eyechach **/
 .overlay_catch {
 	position: absolute;
 	top: 0;
@@ -288,16 +288,64 @@ span.lined{
 }
 
 .overlay_item {
-	position: absolute;
+	position: relative;
 	top: 0;
 	left: 0;
+	margin: 0;
 	height: 100%;
 	width: 100%;
-	padding-top: 30px;
-	z-index: 10;
 	text-align: center;
-	background-color: rgba(0, 0, 0, 0);
+	background-color: rgba(255, 255, 255, 0);
+	overflow: hidden;
+	z-index: 3;
 }
+
+.overlay_item h1,
+.overlay_item h2 {
+	color: white;
+	text-shadow: 0 0 5px #161616;
+}
+
+.slider {
+	list-style-type: none;
+	height: 30px;
+	line-height: 30px;
+	width: 100%;
+	overflow: hidden;
+}
+
+.slide_item {
+	width: 100%;
+	height: auto;
+	line-height: 30px;
+	min-height: 30px;
+	text-align: center;
+	color: white;
+	font-size: 16px;
+	text-shadow: 0 0 5px #161616;
+}
+
+.logo_box {
+	height: 160px;
+}
+
+.logo_sq {
+	position: absolute;
+	box-sizing: border-box;
+	top: 0;
+	width: 150px;
+	max-width: 150px;
+	height: 150px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.overlay_item_header {
+	height: 100px;
+	line-height: 100px;
+	color: orange;
+}
+/** ---------- **/
 
 .color_fff {
 	color: #fff;
@@ -652,6 +700,7 @@ hr.acl_spacer{
 	bottom: 0;
 	height: auto;
 	width: 100%;
+	z-index: 1;
 }
 
 .acl_title {
@@ -1035,6 +1084,7 @@ ul.acl_list {
 }
 
 .pfImage {
+	position: relative;
 	margin: 20px auto;
 	width: 95%;
 	min-width: 0px;
@@ -1044,7 +1094,9 @@ ul.acl_list {
 }
 
 .pfImage img {
-	width: 100%;
+	position: relative;
+	top: 0;
+	left 0;
 }
 
 .pfArticle {
@@ -1137,13 +1189,14 @@ ul.acl_list {
 
 .pfIndex img {
 	height: 100%;
+	width: initial;
 }
 
 .x2idx img,
 .x3idx img,
 .x4idx img {
 	width: 100%;
-	height: auto;
+	height: initial;
 }
 
 .pfIndex .tile_label {
@@ -1356,77 +1409,6 @@ ul.acl_list {
 .txtbox p .right{
 	margin-right: 2rem;
 }
-/* overlay item on eyechach */
-.overlay_item h1,
-.overlay_item h2 {
-	color: white;
-	text-shadow: 0 0 5px #161616;
-}
-
-.overlay_item {
-	position: absolute;
-	margin: 0;
-	padding: 0;
-	top: 0;
-	width: 100%;
-	height: auto;
-	line-height: auto;
-	line-height: auto;
-	overflow: hidden;
-	z-index: 3;
-}
-
-.slider {
-	list-style-type: none;
-	height: 30px;
-	line-height: 30px;
-	width: 100%;
-	overflow: hidden;
-}
-
-.slide_item {
-	width: 100%;
-	height: auto;
-	line-height: 30px;
-	min-height: 30px;
-	text-align: center;
-	color: white;
-	font-size: 16px;
-	text-shadow: 0 0 5px #161616;
-}
-
-.logo_box {
-	height: 150px;
-}
-
-.logo_sq {
-	position: absolute;
-	top: 0;
-	width: 150px;
-	max-width: 150px;
-	height: 150px;
-	left: 50%;
-	transform: translateX(-50%);
-}
-
-.overlay_item_header {
-	height: 100px;
-	line-height: 100px;
-	color: orange;
-}
-
-.hidden {
-	visibility: hidden;
-	z-index: -1;
-	transition-duration: 0.3s;
-}
-.visible {
-	visibility: visible;
-	transition-duration: 0.6s;
-}
-
-/* /overlay item on eyechach */
-
 
 /* blog items */
 .blg_index{
@@ -1551,10 +1533,9 @@ ul.acl_list {
 }
 .slides li  h3.itemTitle, 
 .block_L h3.itemTitle{
-	top: -1rem;
-	left: -1.2rem;
+	top: -0.2rem;
+	left: -0.6rem;
 	transform: none;
-	padding: 1rem 1rem 1.5rem 1rem;
 	font-weight: 600;
 	text-align: left;
 	letter-spacing: -0.2rem;
@@ -2082,7 +2063,12 @@ div.block-emb{
 }
 
 /** responsiv layouts **/
-@media screen and (max-width:639px) {}
+@media screen and (max-width:639px) {
+	.pfImage img{
+		width: 100%;
+		height: auto;
+	}
+}
 @media screen and (max-width:767px) {
 	#pgs_header_logo,
 	#pgs_header_sitename {
@@ -2196,6 +2182,10 @@ div.block-emb{
 	#menu-headerNav {
 		flex-direction: row;
 	}
+	
+	.section0 .acl_eyecatch {
+		height: 300px;
+	}
 	.acl_container {
 		//padding: 0 50px;
 	}
@@ -2271,14 +2261,22 @@ div.block-emb{
 		overflow: hidden;
 	}
 	.pfImage img {
-		width: auto;
 		height: 100%;
+		width: auto;
+		max-width: initial;
+	}
+	.x2idx img,
+	.x3idx img,
+	.x4idx img {
+		width: 100%;
+		height: initial;
 	}
 	.pfArticle {
 		float: right;
 		margin-left: 0;
 		margin-right: 5%;
 		width: 45%;
+		
 		height: 100%;
 		z-index: 1;
 	}
@@ -2287,6 +2285,17 @@ div.block-emb{
 	}
 	.pfIndex {
 		height: 200px
+	}
+	.pfIndex img {
+		height: 100%;
+		width: auto;
+		max-width: initial;
+	}
+	.x2idx img,
+	.x3idx img,
+	.x4idx img {
+		width: 100%;
+		height: auto;
 	}
 	.btn{
 		width: auto;
@@ -2500,7 +2509,7 @@ div.block-emb{
 
 @media screen and (min-width:1024px) {
 	/** masonly grid **/
-	/* fluid 5 columns */
+	/*** fluid 5 columns ***/
 	.grid-sizer {
 		width: 20%;
 	}
@@ -2508,12 +2517,12 @@ div.block-emb{
 		width: 16%;
 		margin: 10px 2%;
 	}
-	/* 2 columns */
+	/*** 2 columns ***/
 	.grid-item--width2 {
 		width: 36%;
 		margin: 10px 2%;
 	}
-	/* 3 columns */
+	/*** 3 columns ***/
 	.grid-item--width3 {
 		width: 56%;
 		margin: 10px 2%;
@@ -2521,7 +2530,21 @@ div.block-emb{
 	.lbox_thumbs{
 		width: 800px;
 	}
+	/** ---------- **/
 }
+
+/* visibility control */
+.hidden {
+	visibility: hidden;
+	z-index: -1;
+	transition-duration: 0.3s;
+}
+.visible {
+	visibility: visible;
+	transition-duration: 0.6s;
+}
+/* /visibility control */
+
 /* for Metaslider */
 .hide-caption-wrap{
 	height: 400px;
@@ -2549,7 +2572,8 @@ div.block-emb{
 	background: rgba(255,255,255,0.5);
 }
 /* /for Metaslider */
-/* popular Posts */
+
+/* for popular Posts */
 .wpp-list{
 	width: 100%;
 }
@@ -2612,6 +2636,7 @@ div.block-emb{
 	font-weight: 200;
 }
 /* /for Popular Posts */
+
 /* for Related Posts */
 .related_post_title {
 }
@@ -2706,3 +2731,122 @@ ul.related_post li a {
 	}
 }
 /* /for Related Posts */
+
+/* for DWQA */
+.dwqa-search,
+.dwqa-question-filter span,
+.wp-editor-tools,
+.quicktags-toolbar,
+.dwqa-comments{
+	display: none;
+}
+
+.dwqa-question-filter{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	width: 100%;
+}
+.dwqa-question-filter a{
+	display: block;
+	box-sizing: border-box;
+	width: 50%;
+	margin: 0;
+	height: auto;
+	border: solid 1px #aaa !important;
+	background-color: #ccc;
+	line-height: 50px;
+	text-align: center;
+	font-size: 1.5rem;
+}
+.dwqa-question-filter a:nth-child(2),
+.dwqa-question-filter a:nth-child(5),
+.dwqa-question-filter a:nth-child(6),
+.dwqa-question-filter a:nth-child(7),
+.dwqa-question-filter a:nth-child(8){
+	display: none;
+}
+.dwqa-question-filter a:nth-child(3):before{
+	font-family: FontAwesome;
+	content: '\f128 \000A';
+}
+.dwqa-question-filter a:nth-child(4):before{
+	font-family: FontAwesome;
+	content: '\f00c \000A';
+}
+.dwqa-question-filter a.active{
+	background-color: white;
+	border-bottom: none !important;
+}
+.dwqa-question-filter .dwqa-sort-by{
+	margin-top: 10px; 
+	margin-left: calc(100% - 14rem);
+	width: 15rem;
+	
+}
+.dwqa-questions-list .dwqa-question-item .dwqa-question-stats{
+	position: absolute;
+	top: auto;
+	bottom: 10px;
+	left: auto;
+	right: 10px;
+	height: auto;
+}
+.dwqa-questions-list .dwqa-question-item{
+	height: auto;
+	border-top: solid 1px #aaa;
+	border-left: none;
+	border-right: none;
+	border-bottom: none;
+
+}
+.dwqa-questions-list .dwqa-question-item .dwqa-question-stats span{
+	display: inline-block;
+	vertical-align: baseline;
+	margin: auto 10px; 
+	border: none;
+	height: auto;
+	min-height: initial;
+	font-size: 1rem;
+}
+.dwqa-questions-list .dwqa-question-item .dwqa-question-stats strong{
+	display: inline-block;
+}
+.dwqa-questions-list .dwqa-question-item .dwqa-question-stats span.dwqa-votes-count{
+	border: solid 1px #aaa;
+	border-radius: 3px;
+}
+.dwqa-questions-list .dwqa-question-item .dwqa-question-stats span.dwqa-votes-count i,
+.dwqa-questions-list .dwqa-question-item .dwqa-question-stats span.dwqa-votes-count strong{
+	color: lightseagreen;
+}
+
+.dwqa-content-edit-form .dwqa-search{
+	display: block;
+}
+.dwqa-content-edit-form .dwqa-search input,
+.wp-editor-container textarea.wp-editor-area.wp-editor-area{
+	border: solid 1.5px #aaa;
+	border-radius: 3px;
+}
+.dwqa-content-edit-form .dwqa-search input:focus,
+.wp-editor-container textarea.wp-editor-area:focus{
+	border-color:lightseagreen;
+}
+.dwqa-ask-question{
+	border: none;
+}
+.dwqa-ask-question a,
+.dwqa-ask-question a:visited,
+.dwqa-container input[type="submit"]{
+	padding: 0.5rem 1rem;
+	border: none;
+	border-radius: 3px;
+	background-color: lightseagreen;
+	color: white;
+	font-weight: 600;
+	text-decoration: none;
+	//box-shadow: 0 0 1px black;
+}
+/* /for DWQA */

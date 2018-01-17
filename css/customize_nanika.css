@@ -41,12 +41,6 @@ a:visited{
 	font-weight: 400;
 	color: orange;
 }
-.logo_box {
-}
-.logo_sq{
-	margin: 10px;
-	background-color: rgba(255,160, 60, 0.5);
-}
 @media screen and (min-width:640px){
 	.tile_view{
 		width: 99%;

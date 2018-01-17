@@ -1073,7 +1073,9 @@ function ins_cptnav($atts, $content = null) {
 	$cptnav .= "\t\t\t\t\t".'<!-- [/inscptnav] -->';
 	return $cptnav;
 }
-/** スライダー **/
+/** スライダー
+* metaslider等のプラグイン利用を推奨
+**/
 global $num_slider;
 $num_slider = 0 ;
 add_shortcode( 'insslider', 'insert_slider');
@@ -1089,12 +1091,12 @@ function insert_slider( $atts, $content = null ) {
 	$num_slider ++;
 	return $slider;
 }
-/** タクソノミー別事例カウンタ **/
-/* 仕様方法：[inscnt]posttype,taxonomy,term,term,term...[/inscnt] */
+/** タクソノミー別事例カウンタ
+* 仕様方法：[inscnt]post_type,taxonomy,term,term,term...[/inscnt]
+**/
 add_shortcode( 'inscnt', 'insert_counter');
 function insert_counter( $atts, $content = null) {
 	$countarray = array();
-	//$namearray = New array;
 	$namearray = explode(',', $content);
 	$i = 2;
 	$j = 0;
@@ -1135,33 +1137,50 @@ function insert_counter( $atts, $content = null) {
 	
 	return $counter;
 }
-/** タクソノミー別事例一覧 **/
+
+/** タクソノミー別事例一覧
+* ※編集中
+* 使用方法：　[inspfitem]post_type,taxonomy,term,term,term...[/inspfitem]
+**/
 add_shortcode( 'inspfitem', 'insert_pfitem' );
 function insert_pfitem( $atts, $content = null) {
 	$namearray = explode(',', $content);
-	$i = 0;
-	$counter = PHP_EOL."\t\t\t\t\t\t".'<ul class="counter">'.PHP_EOL;
+	$i = 2;
+	$j = 0;
+	$content = PHP_EOL."\t\t\t\t\t\t".'<ul class="counter">'.PHP_EOL;
 	
 	foreach($namearray as $value){
-	    $countarray[$i] = 0;
+		if($j < $i){
+				$j ++;
+				continue;
+		}
+		$countarray[$i] = 0;
 		$args = array(
-		    'post_type' => 'portfolio',
+		    'post_type' => $namearray[0],
 			'tax_query' => array(
 			    array(
-			        'taxonomy' => 'portfolio-tag',
+			        'taxonomy' => $namearray[1],
 			        'field'    => 'name',
 			        'terms'    => $namearray[$i],
 		        ),
 		    ),
 		);
 		$my_query = new WP_Query( $args );
+		$content .= "\t\t\t\t\t\t\t".'<h3>'.$namearray[$i].'</h3>'.PHP_EOL;
+		$content .= "\t\t\t\t\t\t\t".'<ul>'.PHP_EOL;
 		while ( $my_query->have_posts() ) : $my_query->the_post();
-		$countarray[$i] ++;
+		$content .= "\t\t\t\t\t\t\t\t".'<li>'.get_the_title().'</li>'.PHP_EOL;
 		endwhile;
+		$content .= "\t\t\t\t\t\t\t".'</ul>'.PHP_EOL;
+		$i ++;
+		$j ++;
 	}
+    $content .= PHP_EOL."\t\t\t\t\t\t".'</ul>'.PHP_EOL;
+	
+	return $content;
 }
-/** リンクボタン作成ショートコード **/
-//** [insbtn]link,label,class[/insbtn]
+/** リンクボタン作成ショートコード
+使用方法： [insbtn]link,label,class[/insbtn] **/
 add_shortcode( 'insbtn', 'ins_button');
 function ins_button( $atts, $content = null) {
 	$link = "";
@@ -1332,45 +1351,69 @@ function all_show_page_num() {
     $max_page = $wp_query->max_num_pages;
     return $max_page; 
 }
-
+//パンくずリスト取得
 function breadcrumb(){
     global $post;
     $str ='';
     if(!is_home()&&!is_admin()){
-        $str.= '<div id="breadcrumb" class="breadcrumb"><div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" style="display:table-cell;">';
-        $str.= '<a href="'. home_url() .'" itemprop="url"><span itemprop="title"><i class="fa fa-home"></i>ホーム</span></a> &gt;&#160;</div>';
+        $str .= '<div id="breadcrumb" class="breadcrumb"><div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" style="display:table-cell;">';
+        $str .= '<a href="'. home_url() .'" itemprop="url"><span itemprop="title"><i class="fa fa-home"></i>ホーム</span></a> &gt;&#160;</div>';
         if(is_category()) {
             $cat = get_queried_object();
+			
             if($cat -> parent != 0){
                 $ancestors = array_reverse(get_ancestors( $cat -> cat_ID, 'category' ));
                 foreach($ancestors as $ancestor){
+					if(get_cat_name($ancestor)){
 					$str.='<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" style="display:table-cell;"><a href="'. get_category_link($ancestor) .'" itemprop="url"><span itemprop="title">'. get_cat_name($ancestor) .'</span></a> &gt;&#160;</div>';
+					}
                 }
             }
-			$str.='<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" style="display:table-cell;"><a href="'. get_category_link($cat -> term_id). '" itemprop="url"><span itemprop="title"><i class="fa fa-folder-open"></i>'. $cat-> cat_name . '</span></a> &gt;&#160;</div>';
+			if($cat-> cat_name){
+				$str.='<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" style="display:table-cell;"><a href="'. get_category_link($cat -> term_id). '" itemprop="url"><span itemprop="title"><i class="fa fa-folder-open"></i>'. $cat-> cat_name . '</span></a> &gt;&#160;</div>';
+			}
         } elseif(is_page()){
             if($post -> post_parent != 0 ){
                 $ancestors = array_reverse(get_post_ancestors( $post->ID ));
-                foreach($ancestors as $ancestor){
-                    $str.='<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" style="display:table-cell;"><a href="'. get_permalink($ancestor).'" itemprop="url"><span itemprop="title"><i class="fa fa-folder-open"></i>'. get_the_title($ancestor) .'</span></a> &gt;&#160;</div>';
-                }
+				if($ancestors){
+                	foreach($ancestors as $ancestor){
+                	    $str.='<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" style="display:table-cell;"><a href="'. get_permalink($ancestor).'" itemprop="url"><span itemprop="title"><i class="fa fa-folder-open"></i>'. get_the_title($ancestor) .'</span></a> &gt;&#160;</div>';
+                	}
+				}
             }
         } elseif(is_single()){
+				
             $categories = get_the_category($post->ID);
             $cat = $categories[0];
-            if($cat -> parent != 0){
-                $ancestors = array_reverse(get_ancestors( $cat -> cat_ID, 'category' ));
-                foreach($ancestors as $ancestor){
-                    $str.='<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" style="display:table-cell;"><a href="'. get_category_link($ancestor).'" itemprop="url"><span itemprop="title"><i class="fa fa-folder-open"></i>'. get_cat_name($ancestor). '</span></a>→</div>';
-                }
-            }
-            $str.='<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" style="display:table-cell;"><a href="'. get_category_link($cat -> term_id). '" itemprop="url"><span itemprop="title"><i class="fa fa-folder-open"></i>'. $cat-> cat_name . '</span></a> &gt;&#160;</div>';
+			if($cat){
+            	if($cat -> parent != 0){
+            	    $ancestors = array_reverse(get_ancestors( $cat -> cat_ID, 'category' ));
+            	    foreach($ancestors as $ancestor){
+            	        $str.='<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" style="display:table-cell;"><a href="'. get_category_link($ancestor).'" itemprop="url"><span itemprop="title"><i class="fa fa-folder-open"></i>'. get_cat_name($ancestor). '</span></a>→</div>';
+            	    }
+            	}
+				$str.='<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" style="display:table-cell;"><a href="'. get_category_link($cat -> term_id). '" itemprop="url"><span itemprop="title"><i class="fa fa-folder-open"></i>'. $cat-> cat_name . '</span></a> &gt;&#160;</div>';
+			}
+            
         } else{
+			//$str .= 'case4_';
             $str.='<div>'. wp_title('', false) .'</div>';
         }
         $str.='</div>';
     }
     echo $str;
+}
+
+/* DW Question & Answer のパーマリンクをpost_IDに差し替え */
+add_filter('wp_unique_post_slug', 'change_post_slug', 10, 4);
+function change_post_slug($slug, $post_ID, $post_status, $post_type){
+  $postTypeArr = array(
+      'dwqa-question'
+  );
+  if(in_array($post_type, $postTypeArr)){
+    $slug = $post_ID;
+  }
+  return $slug;
 }
 
 ?>

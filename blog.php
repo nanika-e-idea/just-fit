@@ -13,10 +13,7 @@ get_header();
 	$no_bread = get_post_meta($post->ID, 'no_bread', true);
 	if(empty($no_bread)):
 	?>
-	<p class="breadcrumb">
-		<a href="<?php echo $home ?>">トップページ</a>
-		&nbsp;/&nbsp;<a href="<?php echo get_post_type_archive_link( get_post_type()); ?>"><?php echo $obj->labels->singular_name; ?></a>
-	</p>
+	<?php breadcrumb(); ?>
 	<?php endif; ?>
 	<?php if(!is_paged()): ?>
 	<?php the_content(); ?>

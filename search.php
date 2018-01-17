@@ -8,11 +8,7 @@ get_header();
 
 <!-- template index -->
 <div id="container">
-<p class="breadcrumb">
-	<a href="<?php echo $home ?>"><i class="fa fa-home"></i>トップ</a>
-	
-	&nbsp;>&nbsp;<i class="fa fa-search"></i><?php echo get_search_query(); ?>
-</p>
+	<?php breadcrumb(); ?>
 	<h2 class="acl_title">検索結果：<?php echo get_search_query(); ?></h2>
 <ul class="itemList">
 <?php //query_posts('post_type=showcase'); 

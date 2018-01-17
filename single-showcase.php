@@ -4,10 +4,7 @@
 <?php get_header(); ?>
 <!-- template single-sc -->
 <div id="container">
-<p class="breadcrumb">
-	<a href="<?php echo $home ?>"><i class="fa fa-home"></i>トップ</a>
-	&nbsp;>&nbsp;<i class="fa fa-file"></i><?php echo get_the_title(); ?>
-</p>
+<?php breadcrumb(); ?>
 
 <?php 
 	if (have_posts()) :

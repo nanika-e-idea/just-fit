@@ -2,7 +2,7 @@
 <?php PHP_EOL; ?>
 <!-- template page -->
 <div id="container">
-<?php get_template_part('breadcrumb'); ?>
+<?php breadcrumb(); ?>
 	
 <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 	<?php $exeycatch = get_post_meta($post->ID, 'ex_eyecatch', true); ?>

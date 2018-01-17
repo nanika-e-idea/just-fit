@@ -1,0 +1,10 @@
+
+.dwqa-question-filter a.active{
+	background-color: white;
+	border-bottom: none;
+}
+.dwqa-question-filter .dwqa-sort-by{
+	margin-top: 10px; 
+	margin-left: calc(100% - 14rem);
+	width: 15rem;
+}

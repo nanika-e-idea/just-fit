@@ -8,11 +8,7 @@ get_header();
 
 <!-- template archive -->
 <div id="container">
-<p class="breadcrumb">
-	<a href="<?php echo $home ?>"><i class="fa fa-home"></i>トップ</a>
-	&nbsp;>&nbsp;<a href="<?php echo get_post_type_archive_link( get_post_type()); ?>"><i class="fa fa-folder-open"></i><?php echo $obj->labels->singular_name; ?></a>
-	&nbsp;>&nbsp;<i class="fa fa-file"></i><?php echo get_the_title(); ?>
-</p>
+	<?php breadcrumb(); ?>
 
 <?php 
 	if (have_posts()) :
