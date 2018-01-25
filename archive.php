@@ -2,7 +2,7 @@
 global $ptname;
 $tp = get_stylesheet_directory_uri();
 $home = get_bloginfo('url');
-$page = get_the_permalink();
+$permalinkpage = get_the_permalink();
 get_header();
 ?>
 

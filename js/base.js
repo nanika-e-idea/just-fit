@@ -275,14 +275,13 @@ jQuery(document).ready(function ($) {
     	});
 	}
 	
-	// Vote
+	// DWQA Questions Vote
 	var update_vote = false;
 	$( '.dwqa-votes-count' ).on('click', function(e){
 		e.preventDefault();
 		var t = $(this),
-			parent = t.parent(),
-			id = parent.data('post'),
-			nonce = parent.data('nonce'),
+			id = t.data('post'),
+			nonce = t.data('nonce'),
 			vote_for = 'question';
 
 		var data = {
@@ -292,7 +291,6 @@ jQuery(document).ready(function ($) {
 			post: id,
 			type: 'up'
 		};
-		alert(JSON.stringify(data));
 
 		$.ajax({
 			url: dwqa.ajax_url,
@@ -304,10 +302,11 @@ jQuery(document).ready(function ($) {
             	if (data.success) {
                     t.find('strong').text(data.data.vote);
                 }
+				return false;
             },
 			error:function( data ) {
 				console.log("error",data);
-            	
+            	return false;
             },
 		});
 	});

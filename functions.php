@@ -1404,7 +1404,8 @@ function breadcrumb(){
     echo $str;
 }
 
-/* DW Question & Answer のパーマリンクをpost_IDに差し替え */
+/* DW Question & Answer */
+//パーマリンクをpost_IDに差し替え
 add_filter('wp_unique_post_slug', 'change_post_slug', 10, 4);
 function change_post_slug($slug, $post_ID, $post_status, $post_type){
   $postTypeArr = array(
@@ -1414,6 +1415,318 @@ function change_post_slug($slug, $post_ID, $post_status, $post_type){
     $slug = $post_ID;
   }
   return $slug;
+}
+
+//追加用パンくずリスト
+function add_dwqa_breadcrumb() {
+	$wpseo_internallinks = get_option('wpseo_internallinks');
+	if ( function_exists( 'yoast_breadcrumb' ) && $wpseo_internallinks['breadcrumbs-enable'] === true) :
+		yoast_breadcrumb( '<div class="breadcrumbs adddwqa-breadcrumbs">', '</div>' );
+	else:
+		global $dwqa_general_settings;
+		$title  = get_the_title( $dwqa_general_settings['pages']['archive-question'] );
+		$search = isset( $_GET['qs'] ) ? esc_html( $_GET['qs'] ) : false;
+		$author = isset( $_GET['user'] ) ? esc_html( $_GET['user'] ) : false;
+		$output = '';
+		if ( ! is_singular( 'dwqa-question' ) ) {
+			$term     = get_query_var( 'dwqa-question_category' ) ? get_query_var( 'dwqa-question_category' ) : ( get_query_var( 'dwqa-question_tag' ) ? get_query_var( 'dwqa-question_tag' ) : false );
+			$term     = get_term_by( 'slug', $term, get_query_var( 'taxonomy' ) );
+			$tax_name = 'dwqa-question_tag' == get_query_var( 'taxonomy' ) ? __( 'Tag', 'dwqa' ) : __( 'Category', 'dwqa' );
+		} else {
+			$term = wp_get_post_terms( get_the_ID(), 'dwqa-question_category' );
+			if ( $term ) {
+				$term     = $term[0];
+				$tax_name = __( 'Category', 'dwqa' );
+			}
+		}
+		if ( is_singular( 'dwqa-question' ) || $search || $author || $term ) {
+		}
+		if ( $term || is_singular( 'dwqa-question' ) || $search || $author ) {
+			$output .= '<div><a href="' . get_permalink( $dwqa_general_settings['pages']['archive-question'] ) . '">' . $title . '</a> &gt;&#160;</div>';
+		}
+		if ( $term ) {
+			if ( is_singular( 'dwqa-question' ) ) {
+				$output .= '<div><a href="' . esc_url( get_term_link( $term, get_query_var( 'taxonomy' ) ) ) . '">' . $tax_name . ': ' . $term->name . '</a> &gt;&#160;</div>';
+			} else {
+				$output .= '<div><span class="current">' . $tax_name . ': ' . $term->name . '</span></div>';
+			}
+		}
+		if ( $search ) {
+			$output .= sprintf( '<div><span class="current">%s "%s"</span></div>', __( 'Showing search results for', 'dwqa' ), rawurldecode( $search ) );
+		}
+		if ( $author ) {
+			$output .= sprintf( '<div><span class="current">%s "%s"</span></div>', __( 'Author', 'dwqa' ), rawurldecode( $author ) );
+		}
+		if ( is_singular( 'dwqa-question' ) ) {
+			if ( ! dwqa_is_edit() ) {
+				$output .= '<div><span class="current">' . get_the_title() . '</span></div>';
+			} else {
+				$output .= '<div><a href="' . get_permalink() . '">' . get_the_title() . '</a> &gt;&#160;</div>';
+				$output .= '<div><span class="current">' . __( 'Edit', 'dwqa' ) . '</span></div>';
+			}
+		}
+		if ( is_singular( 'dwqa-question' ) || $search || $author || $term ) {
+			//$output .= '</div>';
+		}
+		return apply_filters( 'dwqa_breadcrumb', $output );
+	endif;
+}
+//エディタのツールバーを隠す
+function dwqa_custom_tinymce_editor( $args = array() ) {
+	global $dwqa;
+	$dwqacustom = new DWQA_Custom();
+	$dwqacustom->display( $args );
+}
+//カスタマイズ用クラス
+class DWQA_Custom {
+	//エディタ
+	public function display( $args ) {
+		extract( wp_parse_args( $args, array(
+				'content'       => '',
+				'id'            => 'dwqa-custom-content-editor',
+				'textarea_name' => 'custom-content',
+				'rows'          => 5,
+				'wpautop'       => false,
+				'media_buttons' => false,
+		) ) );
+
+		$dwqa_tinymce_css = apply_filters( 'dwqa_editor_style', DWQA_URI . 'templates/assets/css/editor-style.css' );
+		wp_editor( $content, $id, array(
+			'wpautop'       => $wpautop,
+			'media_buttons' => $media_buttons,
+			'textarea_name' => $textarea_name,
+			'textarea_rows' => $rows,
+			'tinymce' => array(
+					'toolbar1'    => '',
+					'toolbar2'    => '',
+					'toolbar'     => false,
+					'statusbar'   => false,
+			),
+			'quicktags'     => false,
+		) );
+	}
+	//フィルタ
+	public function custom_archive_posts( $args ) {
+		global $wp_query,$dwqa_general_settings;
+
+		$posts_per_page = isset( $dwqa_general_settings['posts-per-page'] ) ?  $dwqa_general_settings['posts-per-page'] : 5;
+		$user = isset( $_GET['user'] ) && !empty( $_GET['user'] ) ? urldecode( $_GET['user'] ) : false;
+		$filter = isset( $_GET['filter'] ) && !empty( $_GET['filter'] ) ? sanitize_text_field( $_GET['filter'] ) : 'all';
+		$search_text = isset( $_GET['qs'] ) ? sanitize_text_field( $_GET['qs'] ) : false;
+		$sort = isset( $_GET['sort'] ) ? sanitize_text_field( $_GET['sort'] ) : '';
+		$query = array(
+			'post_type' => 'dwqa-question',
+			'posts_per_page' => $posts_per_page,
+			'orderby'	=> 'modified'
+		);
+		$page_text = dwqa_is_front_page() ? 'page' : 'paged';
+		$paged = get_query_var( $page_text );
+		$query['paged'] = $paged ? $paged : 1;
+		
+		// filter by category
+		$cat = get_query_var( 'dwqa-question_category' ) ? get_query_var( 'dwqa-question_category' ) : false;
+		if ( $cat ) {
+			$query['tax_query'][] = array(
+				'taxonomy' => 'dwqa-question_category',
+				'terms' => $cat,
+				'field' => 'slug'
+			);
+		}
+
+		// filter by tags
+		$tag = get_query_var( 'dwqa-question_tag' ) ? get_query_var( 'dwqa-question_tag' ) : false;
+		if ( $tag ) {
+			$query['tax_query'][] = array(
+				'taxonomy' => 'dwqa-question_tag',
+				'terms' => $tag,
+				'field' => 'slug'
+			);
+
+		}
+
+		// filter by user
+		if ( $user ) {
+			$query['author_name'] = esc_html( $user );
+		}
+
+
+		switch ( $sort ) {
+			// sort by views count
+			case 'views':
+				$query['meta_key'] = '_dwqa_views';
+				$query['orderby'] = 'meta_value_num';
+				break;
+
+			// sort by answers count
+			case 'answers':
+				$query['meta_key'] = '_dwqa_answers_count';
+				$query['orderby'] = 'meta_value_num';
+				break;
+
+			// sort by votes count
+			case 'votes':
+				$query['meta_key'] = '_dwqa_votes';
+				$query['orderby'] = 'meta_value_num';
+				break;
+		}
+
+		// filter by status
+		switch ( $filter ) {
+			case 'opening':
+				$query['meta_query'][] = array(
+				   'key' => '_dwqa_status',
+				   'value' => array( 'resolved', 'closed', 'close' ),
+				   'compare' => 'NOT IN',
+				);
+				break;
+			case 'open':
+				$query['meta_query'][] = array(
+				   'key' => '_dwqa_status',
+				   'value' => array( 'open', 're-open' ),
+				   'compare' => 'IN',
+				);
+				break;
+			case 'resolved':
+				$query['meta_query'][] = array(
+				   'key' => '_dwqa_status',
+				   'value' => array( 'resolved' ),
+				   'compare' => 'IN',
+				);
+				break;
+			case 'closed':
+				$query['meta_query'][] = array(
+				   'key' => '_dwqa_status',
+				   'value' => array( 'closed', 'close' ),
+				   'compare' => 'IN',
+				);
+				break;
+			case 'unanswered':
+				$query['meta_query'][] = array(
+				   'key' => '_dwqa_status',
+				   'value' => array( 'open', 'pending' ),
+				   'compare' => 'IN',
+				);
+				break;
+			case 'subscribes':
+				if ( $user ) {
+					$query['meta_query'][] = array(
+						'key'					=> '_dwqa_followers',
+						'value'					=> $user->ID,
+						'compare'				=> '='
+					);
+				}
+				break;
+			case 'my-questions':
+				if ( is_user_logged_in() ) {
+					$query['author'] = get_current_user_id();
+				}
+				break;
+			case 'my-subscribes':
+				if ( is_user_logged_in() ) {
+					$query['meta_query'][] = array(
+						'key'					=> '_dwqa_followers',
+						'value'					=> get_current_user_id(),
+						'compare'				=> '='
+					);
+				}
+				break;
+		}
+
+		// search
+		if ( $search_text ) {
+			$search = sanitize_text_field( $search_text );
+			preg_match_all( '/#\S*\w/i', $search_text, $matches );
+			if ( $matches && is_array( $matches ) && count( $matches ) > 0 && count( $matches[0] ) > 0 ) {
+				$query['tax_query'][] = array(
+					'taxonomy' => 'dwqa-question_tag',
+					'field' => 'slug',
+					'terms' => $matches[0],
+					'operator'  => 'IN',
+				);
+				$search = preg_replace( '/#\S*\w/i', '', $search );
+			}
+
+			$query['s'] = $search;
+		}
+
+		$sticky_questions = get_option( 'dwqa_sticky_questions' );
+
+		if ( is_user_logged_in() ) {
+			$query['post_status'] = array( 'publish', 'private' );
+		}
+
+		$query = wp_parse_args( $args, $query );
+
+		$query = apply_filters( 'dwqa_prepare_archive_posts', $query );
+
+		$wp_query->dwqa_questions = new WP_Query( $query );
+
+		// sticky question
+		$sticky_questions = get_option( 'dwqa_sticky_questions' );
+		if ( !empty( $sticky_questions ) && 'all' == $filter && ! $sort && !$search_text && $query['paged'] == 1 ) {
+
+			if ( $cat ) {
+				foreach( $sticky_questions as $key => $id ) {
+					$terms = wp_get_post_terms( $id, 'dwqa-question_category' );
+					if ( empty( $terms ) || $cat !== $terms[0]->slug ) {
+						unset( $sticky_questions[ $key ] );
+					}
+				}
+			}
+
+			if ( $tag ) {
+				foreach( $sticky_questions as $key => $id ) {
+					$terms = wp_get_post_terms( $id, 'dwqa-question_tag' );
+					if ( empty( $terms ) || $tag !== $terms[0]->slug ) {
+						unset( $sticky_questions[ $key ] );
+					}
+				}
+			}
+
+			if ( $user ) {
+				foreach( $sticky_questions as $key => $id ) {
+					if ( $user->ID !== get_post_field( 'post_author', $id ) ) {
+						unset( $sticky_questions[ $key ] );
+					}
+				}
+			}
+
+			if ( !is_array( $sticky_questions ) ) {
+				$sticky_questions = array( $sticky_questions );
+			}
+			$num_posts = count( $wp_query->dwqa_questions->posts );
+			$stickies_offset = 0;
+
+			for ( $i = 0; $i < $num_posts; $i++ ) {
+				if ( in_array( $wp_query->dwqa_questions->posts[ $i ]->ID, $sticky_questions ) ) {
+					$sticky_post = $wp_query->dwqa_questions->posts[$i];
+
+					array_splice( $wp_query->dwqa_questions->posts, $i, 1 );
+					array_splice( $wp_query->dwqa_questions->posts, $stickies_offset, 0, array( $sticky_post ) );
+
+					$stickies_offset++;
+
+					$offset = array_search( $sticky_post->ID, $sticky_questions );
+					unset( $sticky_questions[$offset] );
+				}
+			}
+
+			if ( !empty( $sticky_questions ) ) {
+				$stickies = get_posts( array(
+					'post__in' 		=> $sticky_questions,
+					'post_type' 	=> 'dwqa-question',
+					'post_status' 	=> 'publish',
+					'nopaging'		=> true
+				) );
+
+				foreach( $stickies as $sticky_post ) {
+					array_splice( $wp_query->dwqa_questions->posts, $stickies_offset, 0, array( $sticky_post ) );
+					$stickies_offset++;
+				}
+			}
+			$wp_query->dwqa_questions->post_count = count( $wp_query->dwqa_questions->posts );
+		}
+	}
 }
 
 ?>

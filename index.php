@@ -2,7 +2,7 @@
 global $ptname;
 $tp = get_stylesheet_directory_uri();
 $home = get_bloginfo('url');
-$page = get_the_permalink();
+$permalink = get_the_permalink();
 get_header();
 ?>
 
@@ -18,7 +18,7 @@ get_header();
 <?php while (have_posts()) : the_post(); ?>
 	<div id="<?php echo get_post_meta($post->ID, 'element_ID', true) ?>" class="article section<?php echo $cnt_articles ?>">
 
-		<h2 class="acl_title"><a href="<?php $page ?>"><?php the_title(); //記事タイトルを表示 ?></a></h2>
+		<h2 class="acl_title"><a href="<?php $permalink ?>"><?php the_title(); //記事タイトルを表示 ?></a></h2>
 <?php if( get_post()->post_content !== '' ): ?>
 		<div class="acl_container">
 <?php if(has_post_thumbnail()) : ?>

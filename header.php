@@ -3,7 +3,7 @@ global $ptname, $tp, $home;
 $ptname = get_post_type();
 $tp = get_stylesheet_directory_uri();
 $home = get_bloginfo('url');
-$page = get_the_permalink();
+$permalink = get_the_permalink();
 
 //if (! is_user_logged_in() && ! ( preg_match ('/^(signup|activation|lostpassword|profiles|login)/', basename ( $_SERVER[ 'REQUEST_URI' ] ) ) ) && ! (defined('DOING_AJAX') && DOING_AJAX )  && ! ( defined ( 'DOING_CRON' ) && DOING_CRON ) ) {
 //	header ( "Location: {$home}" );
@@ -33,14 +33,16 @@ $page = get_the_permalink();
 	endif;
 ?>&nbsp;|&nbsp;<?php bloginfo('description'); ?>
 	</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo $tp; ?>/css/normalize.css">
-	<link rel="stylesheet" type="text/css" href="<?php echo $tp; ?>/css/font-awesome.min.css">
+<?php
+	wp_enqueue_style ('normalize', $tp.'/css/normalize.css');
+	wp_enqueue_style ('font-awesome', $tp.'/css/font-awesome.min.css');
+	wp_enqueue_style ('style', $tp.'/style.css');
+	wp_enqueue_style ('customize', $tp.'/css/customize.css');
+?>
 <?php
 	wp_enqueue_script("jquery");
 	wp_head();
 ?>
-	<link rel="stylesheet" type="text/css" href="<?php echo $tp; ?>/style.css">
-	<link rel="stylesheet" type="text/css" href="<?php echo $tp; ?>/css/customize.css">
 	<!-- テーマ用追加アイテム呼び出し -->
 <?php if(get_option('add_typekit')): ?>
     <script src="<?php echo get_option('url_typekit'); ?>"></script>
@@ -49,14 +51,16 @@ $page = get_the_permalink();
 	<!-- ページ用追加スタイル呼び出し -->
 <?php if ( is_singular()):?>
 <?php $addcss = get_post_meta(get_the_ID(), 'addcss', true ); ?>
-<?php if ( $addcss != '' ): ?>
-	<link rel="stylesheet" type="text/css" href="<?php echo $tp; ?>/css/<?php echo $addcss ?>">
+<?php if ( $addcss != '' ):
+	wp_enqueue_style ('addcss', $tp.'/css/'.$addcss );
+	endif;
+?>
 <?php endif; ?>
-<?php endif; ?>
+
 </head>
 
 <body>
-	<!-- Page URL - <?php echo $page; ?> -->
+	<!-- Page URL - <?php echo $permalink; ?> -->
 	<div id="view">
 		<a name="page_top"></a>
 		<div id="scroll_page_top" class="hidden"><i class="fa fa-angle-double-up"></i></div>

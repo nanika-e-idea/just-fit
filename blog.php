@@ -121,27 +121,27 @@ get_header();
 			</li>
 <?php $count += 1;?>
 <?php endwhile; endif; wp_reset_postdata(); ?>
-<?php $page = get_the_permalink();?>
+<?php $permalink = get_the_permalink();?>
 		</ul>
 		<div class=pagination-container>
 			<ul class='pagination'>
 				<?php if($current_page == 1): ?>
 				<li><a class="inactive"><i class="fa fa-angle-left"></i></a></li>
 				<?php else: ?>
-				<li><a class="standby" href="<?php echo $page; ?>page/<?php echo $current_page - 1; ?>/"><i class="fa fa-angle-left"></i></a></li>
+				<li><a class="standby" href="<?php echo $permalink; ?>page/<?php echo $current_page - 1; ?>/"><i class="fa fa-angle-left"></i></a></li>
 				<?php endif; ?>
 				
 				<?php for($i=1; $i<$count_page+1; $i++):
 				if(($current_page <= 3 and $i <= 5) or ($count_page > 5 and $current_page > 3 and $current_page <= $count_page - 3 and $i > $current_page - 3 and $i < $current_page + 3) or ($current_page > $count_page - 3 and $i >= $count_page - 5)):
 				?>
-				<li><a href="<?php echo $page; ?>page/<?php echo $i; ?>/" class="<?php if($i == $current_page){echo 'active';}else{echo 'standby';} ?>"><?php echo $i; ?></a></li>
+				<li><a href="<?php echo $permalink; ?>page/<?php echo $i; ?>/" class="<?php if($i == $current_page){echo 'active';}else{echo 'standby';} ?>"><?php echo $i; ?></a></li>
 				<?php endif; ?>
 				<?php endfor; ?>
 				
 				<?php if($current_page == $count_page): ?>
 				<li><a class="inactive"><i class="fa fa-angle-right"></i></a></li>
 				<?php else: ?>
-				<li><a class="standby" href="<?php echo $page; ?>page/<?php echo $current_page + 1; ?>/"><i class="fa fa-angle-right"></i></a></li>
+				<li><a class="standby" href="<?php echo $permalink; ?>page/<?php echo $current_page + 1; ?>/"><i class="fa fa-angle-right"></i></a></li>
 				<?php endif; ?>
 			</ul>
 		</div>
