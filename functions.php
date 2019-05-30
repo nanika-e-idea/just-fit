@@ -759,6 +759,8 @@ function ins_lightbox($atts, $content = null) {
 	
 	$term = wp_get_object_terms( get_the_ID(), $paramarray[1] );
 	$itemsize = get_post_meta(get_the_ID(), 'item_size', true );
+    $noCaption = get_post_meta(get_the_ID(), 'noCaption', true);
+    $noArticle = get_post_meta(get_the_ID(), 'noArticle', true);
 	
 	$lboxThumbnail .= "\t\t".'<div class="lbox_thumbs_item '.$term[0]->slug;
 	if($itemsize == 'L'){
@@ -770,22 +772,30 @@ function ins_lightbox($atts, $content = null) {
 	};
 	$lboxThumbnail .= '">'.PHP_EOL;
 	$lboxThumbnail .= "\t\t\t".'<input type="hidden" value="'.get_the_id().'">'.PHP_EOL;
+    
+    if(!$noCaption){
 	$lboxThumbnail .= "\t\t\t".'<span class="lbox_thumbs_item_label">'.get_the_title().'</span>'.PHP_EOL;
-	
+    }
 	$lboxView .= "\t\t".'<li class="lbox_view_box_item hidden" id="'.get_the_id().'">'.PHP_EOL;
 	$lboxView .= "\t\t\t".'<div class="btn_close"><i class="fa fa-times"></i></div>'.PHP_EOL;
+    if(!$noCaption){
 	$lboxView .= "\t\t\t".'<h3 class="lbox_view_box_item_title">'.get_the_title().'</h3>'.PHP_EOL;
-	
+	}
 	if ( has_post_thumbnail() ){
 		$lboxThumbnail .= "\t\t\t".'<img class="lbox_thumbs_item_image" src="'.wp_get_attachment_image_src( get_post_thumbnail_id() , 'large' )[0].'">'.PHP_EOL;
+        if($noArticle){
+        $lboxView .= "\t\t\t".'<img class="lbox_view_box_item_image-w" src="'.wp_get_attachment_image_src( get_post_thumbnail_id() , 'large' )[0].'">'.PHP_EOL;
+        }else{
 		$lboxView .= "\t\t\t".'<img class="lbox_view_box_item_image" src="'.wp_get_attachment_image_src( get_post_thumbnail_id() , 'large' )[0].'">'.PHP_EOL;	
+        }
 	};
 	
 	
 	$lboxThumbnail .="\t\t".'</div>'.PHP_EOL;
 	
-	
+	if(!$noArticle){
 	$lboxView .= "\t\t\t".get_the_content().PHP_EOL;
+    }
 	$lboxView .= "\t\t".'</li>'.PHP_EOL;
 	endwhile;
 	

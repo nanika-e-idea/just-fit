@@ -1984,7 +1984,11 @@ li.neighbor_next{
 .lbox_view_box_item hr{
 	margin: 5px 0;
 }
-.lbox_view_box_item_image{
+.lbox_view_box_item_image-w{
+    max-width: 420px;
+}
+.lbox_view_box_item_image,
+.lbox_view_box_item_image-w{
 	float: left;
 	width: 100%;
 	height: auto;
@@ -2047,6 +2051,12 @@ div.block-emb{
 		width: calc(50% - 10px);
 		margin-right: 10px;
 	}
+    .lbox_view_box_item_image-w{
+	    float: left;
+        max-width: 420px;
+	    width: 100%;
+	    height: auto;
+    }
 }
 
 /** embeded media sizing **/

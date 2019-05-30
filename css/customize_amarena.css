@@ -6,7 +6,6 @@
 	font-weight: 800;
 	text-transform: uppercase;
 }
-
 h1,h2,h3,h4,h5,
 .tile_label,
 .font_cp,
@@ -23,8 +22,22 @@ h1,h2,h3,h4,h5,
 .fblock div ul li{
 	line-height: 2rem;
 }
-
 ul#menu-headernav li a:hover{
 	background-color: #ff6699;
 	color: white;
+}
+.mmboard {
+	list-style-type: none;
+	width: 100%;
+	height: auto;
+	background-color: #eee;
+	background-image: none;
+	background-size: 300px; 
+	color: #222;
+	font-family: tanukimagic;
+}
+@media screen and (min-width:640px) {
+    .btn{
+        width: calc(100% - 15px);
+    }
 }

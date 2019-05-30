@@ -2,25 +2,21 @@
 <?php PHP_EOL; ?>
 <!-- template page -->
 <div id="container">
+<?php get_template_part('breadcrumb'); ?>
+	
 <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-<?php $nobread = get_post_meta($post->ID, 'nobread', true);
-    if($nobread == 'true' ):
-    else:
-    get_template_part('breadcrumb');
-    endif; ?>
-    
-<?php $exeycatch = get_post_meta($post->ID, 'ex_eyecatch', true);
-	if(empty($exeycatch)):
-	    if(apply_filters('the_content', get_post_meta($post->ID, 'eyecatchoff', true)) == false):
-	        if(has_post_thumbnail()) : ?>
+	<?php $exeycatch = get_post_meta($post->ID, 'ex_eyecatch', true); ?>
+	<?php if(empty($exeycatch)): ?>
+	<?php if(apply_filters('the_content', get_post_meta($post->ID, 'eyecatchoff', true)) == false): ?>
+	<?php if(has_post_thumbnail()) : ?>
 	<div class="pgs_eyecatch">
 		<img class="pgs_eyecatch_image" src="<?php echo wp_get_attachment_image_src( get_post_thumbnail_id() , 'large' )[0]; ?>">
 	</div>
-	        <?php endif;
-	    endif;
-	else:
-	    echo apply_filters('the_content', $exeycatch);
-	endif; ?>
+	<?php endif; ?>
+	<?php endif; ?>
+	<?php else: ?>
+	<?php echo apply_filters('the_content', $exeycatch); ?>
+	<?php endif; ?>
 	<div id="<?php echo get_post_meta($post->ID, 'element_ID', true) ?>" class="article section<?php echo $cnt_articles ?>">
 		<h2 class="acl_title"><?php the_title(); //記事タイトルを表示 ?></h2>
 <?php if( get_post()->post_content !== '' ):
